@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        listView = (ListView) findViewById(R.id.listView);
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "5JeZkVB7d4MfG1an64w2f3oQYbtndG6ZiWU9BFWc", "aMWvc1fam1TzKQVOOXeFXFqyGLhozqJBfFnsTHZZ");
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -58,7 +58,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
       public void MandarDatos (View view){
             stopCapturing();
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,5000,0,this);
-            Toast.makeText(getApplicationContext(), "GPS INICIADO. SU UBICACIÓN ESTA SIENDO GUARDADA EN PARSE", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "SU UBICACIÓN ESTA SIENDO GUARDADA EN PARSE", Toast.LENGTH_SHORT).show();
         }
 
     public void stopCapturing() {
@@ -97,10 +97,8 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
         boolean isNetworkAvaible = false;
         if (networkInfo != null && networkInfo.isConnected()) {
             isNetworkAvaible = true;
-            Toast.makeText(this, "Network is available ", Toast.LENGTH_LONG)
-                    .show();
         } else {
-            Toast.makeText(this, "Network not available ", Toast.LENGTH_LONG)
+            Toast.makeText(this, "Network not available. Please check your connection ", Toast.LENGTH_LONG)
                     .show();
         }
         return isNetworkAvaible;
@@ -149,11 +147,9 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
         protected Void doInBackground(Void... arg0) {
 
 
-            ParseObject testObject = new ParseObject("Rutas");
-            testObject.put("latitude",location.getLatitude());
-            testObject.put("longitude",location.getLongitude());
-            Log.i("location: ", location.getLatitude()+"");
-            Log.i("location: ", location.getLongitude()+"");
+            ParseObject testObject = new ParseObject("Posiciones");
+            testObject.put("latitud",location.getLatitude());
+            testObject.put("longitud",location.getLongitude());
             testObject.saveInBackground();
             return null;
         }
@@ -188,12 +184,14 @@ public class MainActivity extends ActionBarActivity implements LocationListener{
             values = new ArrayList<String>();
             try {
                 ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(
-                        "Rutas");
+                        "Posiciones");
 
                 ob = query.find();
                 for (ParseObject dato : ob) {
 
-                    values.add("Latitude: "+dato.get("latitude")+ "Longitude: " + dato.get("longitude"));
+                    values.add("Latitud: "+dato.get("latitud")+ "\nLongitud: " + dato.get("longitud"));
+                    Log.i("Latitud: ", dato.get("latitud").toString());
+                    Log.i("Longitud: ", dato.get("longitud").toString());
 
                 }
             } catch (ParseException e) {

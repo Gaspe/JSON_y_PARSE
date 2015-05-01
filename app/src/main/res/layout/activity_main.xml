@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Parse + GPS"
+        android:text="GPS  tracker with Parse"
         android:id="@+id/textView"
         android:gravity="center" />
 
@@ -49,7 +49,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:text="Trar datos de Parse"
+            android:text="Traer datos de Parse"
             android:id="@+id/button2"
             android:layout_weight="1"
             android:onClick="CargarDatos" />
